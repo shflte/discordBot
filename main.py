@@ -1,15 +1,27 @@
 import os
 from dotenv import load_dotenv
 import discord
+from generate_response_to_wee import generate_response_to_wee
+from process_cmd import process_cmd
 
 load_dotenv()  # Load environment variables from .env file
 
-# Get Discord token from environment variable
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+
+DENNIS_GUILD = int(os.getenv('DENNIS_GUILD'))
+DENNIS_WEE = int(os.getenv('DENNIS_WEE'))
+DENNIS_TEXT_CHANNEL_MESS = int(os.getenv('DENNIS_TEXT_CHANNEL_MESS'))
 
 # Create a Discord client with intents
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
+
+def is_wee(roles: list):
+    for role in roles:
+        if role.id == DENNIS_WEE:
+            return True
+        
+    return False
 
 # Define an event handler for when the bot is ready
 @client.event
@@ -23,11 +35,18 @@ async def on_message(message):
         return
 
     # Check if the message was sent in a specific channel
-    if message.channel.id == 691282622025826344:
-        # Check if the message contains a specific keyword
-        if 'keyword' in message.content:
-            # Send a response to the same channel
-            await message.channel.send('Response message')
+    if message.guild.id == DENNIS_GUILD:
+        if message.channel.id == DENNIS_TEXT_CHANNEL_MESS:
+            if is_wee(message.author.roles):
+                if message.content.startswith('!'):
+                    # Get the command (without the leading ! character)
+                    cmd = message.content[1:]
+                    process_cmd(cmd)
+                else:
+                    response = generate_response_to_wee(message)
+                    await message.channel.send(response)
+            else: # only respond to wee temporary
+                pass
 
 # Run the bot
 client.run(DISCORD_TOKEN)
