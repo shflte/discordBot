@@ -11,10 +11,13 @@ DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 DENNIS_GUILD = int(os.getenv('DENNIS_GUILD'))
 DENNIS_WEE = int(os.getenv('DENNIS_WEE'))
 DENNIS_TEXT_CHANNEL_MESS = int(os.getenv('DENNIS_TEXT_CHANNEL_MESS'))
+DENNIS_TEXT_CHANNEL_TEST = int(os.getenv('DENNIS_TEXT_CHANNEL_TEST'))
 
 # Create a Discord client with intents
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
+
+switch = True
 
 def is_wee(roles: list):
     for role in roles:
@@ -36,15 +39,16 @@ async def on_message(message):
 
     # Check if the message was sent in a specific channel
     if message.guild.id == DENNIS_GUILD:
-        if message.channel.id == DENNIS_TEXT_CHANNEL_MESS:
+        if message.channel.id == DENNIS_TEXT_CHANNEL_TEST:
             if is_wee(message.author.roles):
+                print("message:", message.content)
                 if message.content.startswith('!'):
                     # Get the command (without the leading ! character)
                     cmd = message.content[1:]
-                    process_cmd(cmd)
-                else:
-                    response = generate_response_to_wee(message)
-                    await message.channel.send(response)
+
+                    await process_cmd(message, cmd)
+                elif switch:
+                    await generate_response_to_wee(message)
             else: # only respond to wee temporary
                 pass
 
