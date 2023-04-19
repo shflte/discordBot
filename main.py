@@ -15,9 +15,10 @@ DENNIS_TEXT_CHANNEL_TEST = int(os.getenv('DENNIS_TEXT_CHANNEL_TEST'))
 
 # Create a Discord client with intents
 intents = discord.Intents.default()
+intents.message_content = True
 client = discord.Client(intents=intents)
 
-switch = True
+switch = [True]
 
 def is_wee(roles: list):
     for role in roles:
@@ -41,17 +42,15 @@ async def on_message(message):
     if message.guild.id == DENNIS_GUILD:
         if message.channel.id == DENNIS_TEXT_CHANNEL_TEST:
             if is_wee(message.author.roles):
-                print("message:", message.content)
                 if message.content.startswith('!'):
                     # Get the command (without the leading ! character)
                     cmd = message.content[1:]
 
-                    await process_cmd(message, cmd)
-                elif switch:
+                    await process_cmd(message, cmd, switch)
+                elif switch[0]:
                     await generate_response_to_wee(message)
             else: # only respond to wee temporary
                 pass
 
 # Run the bot
 client.run(DISCORD_TOKEN)
-

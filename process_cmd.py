@@ -1,13 +1,18 @@
 from get_recent_plays import get_recent_plays
 
-async def process_cmd(message, cmd):
+async def process_cmd(message, cmd, switch):
     if cmd == "down":
+        switch[0] = False
         await message.channel.send("估奈")
-        switch = False
+        return
 
     if cmd == "up":
+        switch[0] = True
         await message.channel.send("古摸寧")
-        switch = True
+        return
 
     if cmd.split()[0] == "opgg":
         await message.channel.send("not implemented yet")
+        return
+
+    await message.channel.send("建議不要亂打指令 ==")

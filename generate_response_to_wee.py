@@ -7,6 +7,8 @@ def get_wee_user_id(user):
     return int(users_json[user])
 
 async def donkey(message):
+    if "嫩" in message.content:
+        response = "你才嫩"
     response = '驢子人'
     await message.channel.send(response)
 
