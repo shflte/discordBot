@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import discord
-from app.generate_response_to_wee import generate_response_to_wee
+from app.generate_response import generate_response
 from app.process_cmd import process_cmd
 
 load_dotenv()  # Load environment variables from .env file
@@ -38,7 +38,7 @@ async def on_message(message):
                 cmd = message.content[1:]
                 await process_cmd(message, cmd, switch)
             elif switch[0]:
-                await generate_response_to_wee(message)
+                await generate_response(message)
 
 # Run the bot
 client.run(DISCORD_TOKEN)

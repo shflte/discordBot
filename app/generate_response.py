@@ -1,6 +1,6 @@
-import json
-from app.generate_chatgpt_response import generate_response
+from app.generate_chatgpt_response import generate_gpt_response
 from app.tools import is_wee, get_user_id
+import random
 
 hint_message_dict = {
     get_user_id("sh"): ["You are talking to a handsome man"],
@@ -13,8 +13,8 @@ hint_message_dict = {
     get_user_id("high"): []
 }
 
-short_reply_user_dict = {
-    get_user_id("sh"): ["蛋餅好帥"],
+short_user_reply_dict = {
+    get_user_id("sh"): ["好帥"],
     get_user_id("donkey"): ["好了拉笨驢"],
     get_user_id("black"): ["好了拉懂神"],
     get_user_id("fat"): ["好了拉蘇凱"],
@@ -26,7 +26,14 @@ short_reply_user_dict = {
 
 short_reply_list = ["真假", "有料", "確實", "亂講", "冷靜", "好了拉", "緊張囉"]
 
-async def generate_response_to_wee(message):
-    hint_message_list = hint_message_dict[message.author.id]
-    gpt_reply = generate_response(message.content, hint_message_list)
-    await message.channel.send(gpt_reply)
+async def generate_response(message):
+    action = random.choices(["chatgpt", "short_reply", "short_reply_user"], weights=[0.9, 0.08, 0.02], k=1)[0]
+    if action == "chatgpt":
+        hint_message_list = hint_message_dict[message.author.id]
+        reply = generate_gpt_response(message.content, hint_message_list)
+    elif action == "short_reply_user":
+        reply = short_user_reply_dict[message.author.id][0]
+    elif action == "short_reply":
+        reply = random.choice(short_reply_list)
+    
+    await message.channel.send(reply)

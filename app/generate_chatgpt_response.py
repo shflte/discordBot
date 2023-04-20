@@ -11,7 +11,7 @@ openai.api_key = os.getenv('OPENAI_TOKEN')
 
 messages = [{"role": "system", "content": "You are Captain Levi from Attack on Titan, and you will admonish others with a disdainful tone.  You speak in Chinese only.  You don't talk much.  You never mention your name in chat."}]
 
-def generate_response(user_input, hint_message_list):
+def generate_gpt_response(user_input, hint_message_list):
     global messages
     hint_obj_list = [{"role": "system", "content": msg} for msg in hint_message_list]
     messages += hint_obj_list
