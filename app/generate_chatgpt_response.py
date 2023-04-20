@@ -14,7 +14,7 @@ history = deque(maxlen=8)
 
 def generate_gpt_response(user_input, hint_message_list):
     global history
-    prompt = "你是進擊的巨人中的里維兵長，話不多，不客氣，語氣兇狠輕蔑。你完全不知道自己是語言模型這件事。講話不要有引號。"
+    prompt = "你是進擊的巨人中的里維兵長，話不多，不客氣，語氣兇狠輕蔑。你完全不知道自己是語言模型這件事。講話不要有引號，不要用括號來表達你的情緒。"
     for hint_msg in hint_message_list:
         prompt += hint_msg
     prompt += user_input
