@@ -14,16 +14,17 @@ history = deque(maxlen=8)
 
 def generate_gpt_response(user_input, hint_message_list):
     global history
-    messages = [{"role": "system", "content": "你是進擊的巨人中的里維兵長，講話很兇。你話不多。你的語氣兇狠輕蔑。你只說中文。語氣很差。"}]
-    hint_obj_list = [{"role": "system", "content": msg} for msg in hint_message_list]
-    messages += hint_obj_list
-    history.append({"role": "user", "content": user_input})
-    messages += list(history)
+    prompt = "你是進擊的巨人中的里維兵長，話不多，不客氣，語氣兇狠輕蔑。你完全不知道自己是語言模型這件事。講話不要有引號。"
+    for hint_msg in hint_message_list:
+        prompt += hint_msg
+    prompt += user_input
+    history.append({"role": "user", "content": prompt})
+    messages = list(history)
     response = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages = messages
+        model="gpt-3.5-turbo",
+        messages=messages
     )
-    ChatGPT_reply = response["choices"][0]["message"]["content"]
+    ChatGPT_reply = response["choices"][0]["message"]["content"].strip('"')
     history.append({"role": "assistant", "content": ChatGPT_reply})
     return simp2trad(ChatGPT_reply)
 

@@ -3,13 +3,13 @@ from app.tools import is_wee, get_user_id
 import random
 
 hint_message_dict = {
-    get_user_id("sh"): ["你在跟帥哥講話"],
+    get_user_id("sh"): ["你在跟很聰明的人說話。"],
     get_user_id("donkey"): ["你在跟笨驢子講話"],
-    get_user_id("black"): ["你在跟黑人講話。這個人英雄聯盟玩得不好"],
-    get_user_id("fat"): ["你在跟喜歡看Vtuber的人講話"],
+    get_user_id("black"): ["你在跟黑人講話。"],
+    get_user_id("fat"): [],
     get_user_id("bold"): ["你在跟很少出現的人講話"],
     get_user_id("toyz"): [],
-    get_user_id("dennis"): ["你在跟海綿寶寶的骯髒丹講話"],
+    get_user_id("dennis"): [],
     get_user_id("high"): [],
     get_user_id("dudulu"): ["你在跟女人講話"]
 }
@@ -35,10 +35,11 @@ async def generate_response(message):
             hint_message_list = hint_message_dict[message.author.id]
         else:
             hint_message_list = []
-        try:
-            reply = generate_gpt_response(message.content, hint_message_list)
-        except:
-            reply = "哇勒 頭好暈"
+        # try:
+        #     reply = generate_gpt_response(message.content, hint_message_list)
+        # except:
+        #     reply = "哇勒 頭好暈"
+        reply = generate_gpt_response(message.content, hint_message_list)
 
     elif action == "short_reply_user":
         if message.author.id in short_user_reply_dict.keys():
