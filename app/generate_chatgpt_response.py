@@ -3,13 +3,14 @@ import os
 import opencc
 from dotenv import load_dotenv
 from app.tools import simp2trad
+from collections import deque
 
 dotenv_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.env'))
 load_dotenv(dotenv_path)
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
 
-history = []
+history = deque(maxlen=20)
 
 def generate_gpt_response(user_input, hint_message_list):
     global history
@@ -17,7 +18,8 @@ def generate_gpt_response(user_input, hint_message_list):
     hint_obj_list = [{"role": "system", "content": msg} for msg in hint_message_list]
     messages += hint_obj_list
     history.append({"role": "user", "content": user_input})
-    messages += history
+    print(len(history))
+    messages += list(history)
     response = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = messages
