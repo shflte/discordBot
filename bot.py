@@ -29,6 +29,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global timer
     # Ignore messages sent by the bot itself
     if message.author == client.user:
         return
@@ -40,7 +41,7 @@ async def on_message(message):
                 cmd = message.content[1:]
                 await process_cmd(message, cmd, switch)
             elif switch[0]:
-                if not timer:
+                if client.user.mentioned_in(message) and message.mention_everyone is False or not timer:
                     timer = random.randint(5, 8)
                     await generate_response(message)
                 else:
