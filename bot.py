@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import discord
 from app.generate_response import generate_response
 from app.process_cmd import process_cmd
+import random
 
 load_dotenv()  # Load environment variables from .env file
 
@@ -19,6 +20,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 switch = [True]
+timer = 0
 
 # Define an event handler for when the bot is ready
 @client.event
@@ -38,7 +40,11 @@ async def on_message(message):
                 cmd = message.content[1:]
                 await process_cmd(message, cmd, switch)
             elif switch[0]:
-                await generate_response(message)
+                if not timer:
+                    timer = random.randint(5, 8)
+                    await generate_response(message)
+                else:
+                    timer -= 1
 
 # Run the bot
 client.run(DISCORD_TOKEN)
