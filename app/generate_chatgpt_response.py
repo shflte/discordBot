@@ -9,7 +9,7 @@ load_dotenv(dotenv_path)
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
 
-messages = [{"role": "system", "content": "You are Captain Levi from Attack on Titan, and you will admonish others with a disdainful tone.  You speak in Chinese only.  You don't talk much.  You never mention your name in chat."}]
+messages = [{"role": "system", "content": "你是進擊的巨人中的里維兵長，講話很兇。你話不多。你的語氣兇狠輕蔑。你只說中文。語氣很差。"}]
 
 def generate_gpt_response(user_input, hint_message_list):
     global messages

@@ -3,15 +3,15 @@ from app.tools import is_wee, get_user_id
 import random
 
 hint_message_dict = {
-    get_user_id("sh"): ["You are talking to a handsome man"],
-    get_user_id("donkey"): ["You are talking to a dumb donkey"],
-    get_user_id("black"): ["You are talking to a person who plays LoL bad"],
-    get_user_id("fat"): ["You are talking to a person who watch Vtubers stream every day"],
-    get_user_id("bold"): ["You are talking to a person who seldom shows up"],
+    get_user_id("sh"): ["你在跟帥哥講話"],
+    get_user_id("donkey"): ["你在跟笨驢子講話"],
+    get_user_id("black"): ["你在跟黑人講話。這個人英雄聯盟玩得不好"],
+    get_user_id("fat"): ["你在跟喜歡看Vtuber的人講話"],
+    get_user_id("bold"): ["你在跟很少出現的人講話"],
     get_user_id("toyz"): [],
-    get_user_id("dennis"): ["You are talking to dirty dan from spongebob"],
+    get_user_id("dennis"): ["你在跟海綿寶寶的骯髒丹講話"],
     get_user_id("high"): [],
-    get_user_id("dudulu"): ["You are talking to a woman"]
+    get_user_id("dudulu"): ["你在跟女人講話"]
 }
 
 short_user_reply_dict = {
@@ -29,7 +29,7 @@ short_user_reply_dict = {
 short_reply_list = ["真假", "有料", "確實", "亂講", "冷靜", "好了拉", "緊張囉"]
 
 async def generate_response(message):
-    action = random.choices(["chatgpt", "short_reply", "short_reply_user"], weights=[0.9, 0.08, 0.02], k=1)[0]
+    action = random.choices(["chatgpt", "short_reply", "short_reply_user"], weights=[0.9, 0.02, 0.08], k=1)[0]
     if action == "chatgpt":
         if message.author.id in hint_message_dict.keys():
             hint_message_list = hint_message_dict[message.author.id]
@@ -42,6 +42,7 @@ async def generate_response(message):
             reply = short_user_reply_dict[message.author.id][0]
         else:
             reply = "好了拉"
+
     elif action == "short_reply":
         reply = random.choice(short_reply_list)
     
