@@ -1,6 +1,11 @@
-from get_recent_plays import get_recent_plays
+from app.get_recent_plays import get_recent_plays
+from app.tools import is_wee
 
 async def process_cmd(message, cmd, switch):
+    if not is_wee(message.author.roles):
+        await message.channel.send("你誰")
+        return 
+    
     if cmd == "down":
         switch[0] = False
         await message.channel.send("估奈")
