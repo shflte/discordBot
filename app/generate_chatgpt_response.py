@@ -26,3 +26,4 @@ def generate_gpt_response(user_input, hint_message_list):
     ChatGPT_reply = response["choices"][0]["message"]["content"]
     history.append({"role": "assistant", "content": ChatGPT_reply})
     return simp2trad(ChatGPT_reply)
+
