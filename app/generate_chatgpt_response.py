@@ -9,13 +9,15 @@ load_dotenv(dotenv_path)
 
 openai.api_key = os.getenv('OPENAI_TOKEN')
 
-messages = [{"role": "system", "content": "你是進擊的巨人中的里維兵長，講話很兇。你話不多。你的語氣兇狠輕蔑。你只說中文。語氣很差。"}]
+history = []
 
 def generate_gpt_response(user_input, hint_message_list):
-    global messages
+    global history
+    messages = [{"role": "system", "content": "你是進擊的巨人中的里維兵長，講話很兇。你話不多。你的語氣兇狠輕蔑。你只說中文。語氣很差。"}] + history
     hint_obj_list = [{"role": "system", "content": msg} for msg in hint_message_list]
     messages += hint_obj_list
-    messages.append({"role": "user", "content": user_input})
+    history.append({"role": "user", "content": user_input})
+    messages += history
     response = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = messages
