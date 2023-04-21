@@ -21,6 +21,7 @@ def generate_gpt_response(user_input, hint_message_list):
     history.append({"role": "user", "content": prompt})
     messages = list(history)
     response = openai.ChatCompletion.create(
+        max_tokens=80,
         model="gpt-3.5-turbo",
         messages=messages
     )

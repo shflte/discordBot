@@ -29,25 +29,26 @@ short_user_reply_dict = {
 short_reply_list = ["真假", "有料", "確實", "亂講", "冷靜", "好了拉", "緊張囉"]
 
 async def generate_response(message):
-    action = random.choices(["chatgpt", "short_reply", "short_reply_user"], weights=[0.9, 0.02, 0.08], k=1)[0]
-    if action == "chatgpt":
-        if message.author.id in hint_message_dict.keys():
-            hint_message_list = hint_message_dict[message.author.id]
-        else:
-            hint_message_list = []
-        # try:
-        #     reply = generate_gpt_response(message.content, hint_message_list)
-        # except:
-        #     reply = "哇勒 頭好暈"
-        reply = generate_gpt_response(message.content, hint_message_list)
+    async with message.channel.typing(): # 模擬正在輸入的效果
+        action = random.choices(["chatgpt", "short_reply", "short_reply_user"], weights=[0.9, 0.02, 0.08], k=1)[0]
+        if action == "chatgpt":
+            if message.author.id in hint_message_dict.keys():
+                hint_message_list = hint_message_dict[message.author.id]
+            else:
+                hint_message_list = []
+            try:
+                reply = generate_gpt_response(message.content, hint_message_list)
+            except:
+                reply = "哇勒 頭好暈 我的王之力"
+            reply = generate_gpt_response(message.content, hint_message_list)
 
-    elif action == "short_reply_user":
-        if message.author.id in short_user_reply_dict.keys():
-            reply = short_user_reply_dict[message.author.id][0]
-        else:
-            reply = "好了拉"
+        elif action == "short_reply_user":
+            if message.author.id in short_user_reply_dict.keys():
+                reply = short_user_reply_dict[message.author.id][0]
+            else:
+                reply = "好了拉"
 
-    elif action == "short_reply":
-        reply = random.choice(short_reply_list)
-    
-    await message.channel.send(reply)
+        elif action == "short_reply":
+            reply = random.choice(short_reply_list)
+        
+        await message.channel.send(reply)
