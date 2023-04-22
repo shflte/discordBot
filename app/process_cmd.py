@@ -2,6 +2,7 @@
 from app.tools import is_wee
 from app.dst import back_up, toggle, roll_back, all_save
 from dotenv import load_dotenv
+import discord
 import os
 load_dotenv()  # Load environment variables from .env file
 
@@ -51,7 +52,7 @@ async def process_cmd(message, cmd, switch):
         
         elif dst_cmd == "all_save":
             await message.channel.send("全部存檔：")
-            await message.channel.send("\n".join(all_save()))
+            await message.channel.send(discord.utils.escape_markdown("\n".join(all_save())))
             return
         
         elif dst_cmd == "roll_back":
