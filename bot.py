@@ -36,16 +36,15 @@ async def on_message(message):
 
     # Check if the message was sent in a specific channel
     if message.guild.id == DENNIS_GUILD:
-        if message.channel.id == DENNIS_TEXT_CHANNEL_TEST:
-            if message.content.startswith('!'):
-                cmd = message.content[1:]
-                await process_cmd(message, cmd, switch)
-            elif switch[0]:
-                if (client.user.mentioned_in(message) and message.mention_everyone is False) or (not timer):
-                    timer = random.randint(5, 8)
-                    await generate_response(message)
-                else:
-                    timer -= 1
+        if message.content.startswith('!'):
+            cmd = message.content[1:]
+            await process_cmd(message, cmd, switch)
+        elif switch[0]:
+            if (client.user.mentioned_in(message) and message.mention_everyone is False) or (not timer):
+                timer = random.randint(5, 8)
+                await generate_response(message)
+            else:
+                timer -= 1
 
 # Run the bot
 client.run(DISCORD_TOKEN)

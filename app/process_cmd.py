@@ -1,6 +1,11 @@
 # from app.get_recent_plays import get_recent_plays
 from app.tools import is_wee
 from app.dst import back_up, toggle, roll_back, all_save
+from dotenv import load_dotenv
+import os
+load_dotenv()  # Load environment variables from .env file
+
+DENNIS_TEXT_CHANNEL_DST = int(os.getenv('DENNIS_TEXT_CHANNEL_DST'))
 
 async def process_cmd(message, cmd, switch):
     if not is_wee(message.author.roles):
@@ -17,7 +22,7 @@ async def process_cmd(message, cmd, switch):
         await message.channel.send("古摸寧")
         return
     
-    if len(cmd.split()) >= 2 and cmd.split()[0] == "dst":
+    if len(cmd.split()) >= 2 and cmd.split()[0] == "dst" and message.channel.id == DENNIS_TEXT_CHANNEL_DST:
         dst_cmd = cmd.split()[1]
         if dst_cmd == "toggle":
             action = cmd.split()[2]
