@@ -62,6 +62,7 @@ async def process_cmd(message, cmd, switch):
                     await message.channel.send("出包了")
                 else:
                     await message.channel.send(f'roll back到"{save}"')
+                return
 
             elif len(cmd.split()) == 2:
                 status = roll_back(None)
@@ -69,6 +70,7 @@ async def process_cmd(message, cmd, switch):
                     await message.channel.send("出包了")
                 else:
                     await message.channel.send(f'roll back到最新ㄉ')
+                return
 
     if len(cmd.split(' ')) == 2 and cmd.split()[0] == "opgg":
         await message.channel.send("懶得寫")

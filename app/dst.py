@@ -25,7 +25,7 @@ def roll_back(save):
     else:
         if save not in all_save():
             return -1
-        command = dst_folder + "/rollback.sh -s {}".format(save)
+        command = dst_folder + f'/rollback.sh -s {save}'
     # Execute command
     subprocess.run(command, shell=True)
     return
