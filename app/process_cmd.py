@@ -51,14 +51,16 @@ async def process_cmd(message, cmd, switch):
             return
         
         elif dst_cmd == "all_save":
-            await message.channel.send("全部存檔：")
-            await message.channel.send(discord.utils.escape_markdown("\n".join(all_save())))
+            reply = "全部存檔：\n"
+            for i, save in enumerate(all_save()):
+                reply += f"{i}: {save}\n"
+            await message.channel.send(discord.utils.escape_markdown(reply))
             return
         
         elif dst_cmd == "roll_back":
             if len(cmd.split()) == 3:
-                save = cmd.split()[2]
-                status = roll_back(save)
+                index_of_save = int(cmd.split()[2])
+                status = roll_back(all_save()[index_of_save])
                 if not status == None:
                     await message.channel.send("出包了")
                 else:
