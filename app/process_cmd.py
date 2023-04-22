@@ -64,7 +64,7 @@ async def process_cmd(message, cmd, switch):
                 if not status == None:
                     await message.channel.send("出包了")
                 else:
-                    await message.channel.send(f'roll back到"{save}"')
+                    await message.channel.send(f'roll back到"{all_save()[index_of_save]}"')
                 return
 
             elif len(cmd.split()) == 2:
