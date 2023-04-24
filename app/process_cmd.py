@@ -27,13 +27,15 @@ async def process_cmd(message, cmd, switch):
     if cmd.split()[0] == "dst" and message.channel.id == DENNIS_TEXT_CHANNEL_DST:
         if len(cmd.split()) == 1:
             reply = '''
-            usage:
-                !dst toggle up           : 開服
-                !dst toggle down         : 關服
-                !dst all_save            : 所有存檔, (No: Name_Of_Save)
-                !dst back_up [msg]       : 備份, 名字是當天日期. 如果給定"msg", 會接在日期之後.
-                !dst roll_back [save No] : 回檔, 如果給定"save No", 就回到指定的; 如果沒給就回到最新的.
-            '''
+```
+usage:
+!dst toggle up          : 開服
+!dst toggle down        : 關服
+!dst all_save           : 所有存檔, (No: Name_Of_Save)
+!dst back_up [msg]      : 備份, 名字是當天日期. 如果給定"msg", 會接在日期之後.
+!dst roll_back [save No]: 回檔, 如果給定"save No", 就回到指定的; 如果沒給就回到最新的.
+```
+'''
             await message.channel.send(reply)
             return
             
