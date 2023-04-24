@@ -44,11 +44,11 @@ usage:
             action = cmd.split()[2]
             if action == "up":
                 toggle("up")
-                asyncio.sleep(20)
+                await asyncio.sleep(20)
                 await message.channel.send("應該開好了")
             elif action == "down":
                 toggle("down")
-                asyncio.sleep(15)
+                await asyncio.sleep(15)
                 await message.channel.send("應該關掉了")
             return
             
