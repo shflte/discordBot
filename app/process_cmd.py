@@ -3,6 +3,7 @@ from app.tools import is_wee
 from app.dst import back_up, toggle, roll_back, all_save
 from dotenv import load_dotenv
 import discord
+import asyncio
 import os
 load_dotenv()  # Load environment variables from .env file
 
@@ -23,16 +24,30 @@ async def process_cmd(message, cmd, switch):
         await message.channel.send("古摸寧")
         return
     
-    if len(cmd.split()) >= 2 and cmd.split()[0] == "dst" and message.channel.id == DENNIS_TEXT_CHANNEL_DST:
+    if cmd.split()[0] == "dst" and message.channel.id == DENNIS_TEXT_CHANNEL_DST:
+        if len(cmd.split() == 1):
+            reply = '''
+            usage:
+                !dst toggle up           : 開服
+                !dst toggle down         : 關服
+                !dst all_save            : 所有存檔, (No: Name_Of_Save)
+                !dst back_up [msg]       : 備份, 名字是當天日期. 如果給定"msg", 會接在日期之後.
+                !dst roll_back [save No] : 回檔, 如果給定"save No", 就回到指定的; 如果沒給就回到最新的.
+            '''
+            await message.channel.send(reply)
+            return
+            
         dst_cmd = cmd.split()[1]
         if dst_cmd == "toggle":
             action = cmd.split()[2]
             if action == "up":
                 toggle("up")
-                await message.channel.send("開服")
+                asyncio.sleep(20)
+                await message.channel.send("應該開好了")
             elif action == "down":
                 toggle("down")
-                await message.channel.send("關服")
+                asyncio.sleep(15)
+                await message.channel.send("應該關掉了")
             return
             
         elif dst_cmd == "back_up":

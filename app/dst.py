@@ -37,7 +37,13 @@ def toggle(action):
         command = dst_folder + "/toggle_server.sh -d"
 
     # Execute command
-    subprocess.run(command, shell=True)
+    completed_process = subprocess.run(command, shell=True)
+
+    if completed_process.returncode == 0:
+        return
+    else:
+        raise Exception("Command failed with exit code {}".format(completed_process.returncode))
+
     return
 
 def all_save():
