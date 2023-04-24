@@ -29,8 +29,8 @@ async def process_cmd(message, cmd, switch):
             reply = '''
 ```
 usage:
-!dst toggle up          : 開服
-!dst toggle down        : 關服
+!dst toggle up          : 開服(大概需要70秒, 建議等機器人說開好再動作)
+!dst toggle down        : 關服(大概需要15秒, 建議等機器人說關好再動作)
 !dst all_save           : 所有存檔, (No: Name_Of_Save)
 !dst back_up [msg]      : 備份, 名字是當天日期. 如果給定"msg", 會接在日期之後.
 !dst roll_back [save No]: 回檔, 如果給定"save No", 就回到指定的; 如果沒給就回到最新的.
@@ -44,7 +44,7 @@ usage:
             action = cmd.split()[2]
             if action == "up":
                 toggle("up")
-                await asyncio.sleep(20)
+                await asyncio.sleep(75)
                 await message.channel.send("應該開好了")
             elif action == "down":
                 toggle("down")
