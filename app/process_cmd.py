@@ -25,7 +25,7 @@ async def process_cmd(message, cmd, switch):
         return
     
     if cmd.split()[0] == "dst" and message.channel.id == DENNIS_TEXT_CHANNEL_DST:
-        if len(cmd.split() == 1):
+        if len(cmd.split()) == 1:
             reply = '''
             usage:
                 !dst toggle up           : 開服
