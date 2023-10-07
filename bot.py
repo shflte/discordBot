@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import discord
 from app.generate_response import generate_response
 from app.process_cmd import process_cmd
+from app.get_player_info import get_rank, get_recent_plays
 import random
 
 load_dotenv()  # Load environment variables from .env file

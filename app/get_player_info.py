@@ -5,8 +5,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class XPATH:
+    header_title = "//h2"
     search_bar = "//input[@id='search']"
-    solo_rank = "//div[.='單排積分']/following-sibling::div//div[@class='tier']"
+    solo_rank = "//div[@id='content-container']//div[@class='tier']"
     plays_list = "//div[@class='game-content']"
     result = "//div[@class='result']"
     # kda = "//div[@class='kda']"
@@ -26,11 +27,19 @@ def init_driver(player: str) -> webdriver:
     url = "https://www.op.gg/summoners/tw/" + to_url_name(player)
     driver.get(url)
     wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.XPATH, XPATH.solo_rank)))
+    breakpoint()
+    wait.until(EC.presence_of_element_located((By.XPATH, XPATH.search_bar)))
     return driver
+
+def check_player_exist(driver: webdriver) -> bool:
+    header_title = driver.find_element(By.XPATH, XPATH.header_title).text
+    return header_title != "是沒有註冊在OP.GG的召喚師。請確認有沒有錯別字後重試。"
 
 def get_rank(player: str) -> tuple:
     driver = init_driver(player)
+    if check_player_exist(driver):
+        driver.quit()
+        return ("", "")
     solo_rank = driver.find_element(By.XPATH, XPATH.solo_rank).text
     driver.quit()
     return (solo_rank.split(" ")[0], solo_rank.split(" ")[1])
@@ -39,7 +48,7 @@ def get_recent_plays(player: str) -> list:
     driver = init_driver(player)
 
 if __name__ == "__main__":
-    print(get_rank("你是什麼蛋餅"))
+    print(get_rank("沒有沒有"))
 
 
 
