@@ -1,43 +1,46 @@
-import requests
-from bs4 import BeautifulSoup
-import json
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-}
+class XPATH:
+    search_bar = "//input[@id='search']"
+    solo_rank = "//div[.='單排積分']/following-sibling::div//div[@class='tier']"
+    plays_list = "//div[@class='game-content']"
+    result = "//div[@class='result']"
+    # kda = "//div[@class='kda']"
 
-def get_recent_plays(summoner_name):
-    url = 'https://www.op.gg/summoners/tw/' + summoner_name
-    html = requests.get(url, headers=headers).text
-    soup = BeautifulSoup(html, 'html.parser')
+class GAME:
+    def __init__(self):
+        self.result = ""
+        self.kda = ""
 
-    # 解析網頁得到你要的資訊
-    title = soup.find('content-container').text
+def to_url_name(name: str):
+    return name.replace(" ", "%20")
 
-    # 將資訊轉換為JSON格式
-    data = {'title': title}
-    json_data = json.dumps(data)
+def init_driver(player: str) -> webdriver:
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(options=chrome_options)
+    url = "https://www.op.gg/summoners/tw/" + to_url_name(player)
+    driver.get(url)
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.presence_of_element_located((By.XPATH, XPATH.solo_rank)))
+    return driver
 
-    print(json_data)
-    return
+def get_rank(player: str) -> tuple:
+    driver = init_driver(player)
+    solo_rank = driver.find_element(By.XPATH, XPATH.solo_rank).text
+    driver.quit()
+    return (solo_rank.split(" ")[0], solo_rank.split(" ")[1])
 
-    soup_text = BeautifulSoup(html, 'html.parser').text
-    json_str = json.dumps(soup_text, indent=4)
-    html_dict = json.loads(json_str)
+def get_recent_plays(player: str) -> list:
+    driver = init_driver(player)
 
-    # plays = soup.find('div', {'id': 'content-container'})
-    
-    # print(plays)
-    # for play in plays:
-    #     print(play)
-    print(html_dict)
-    # print(len(plays))
+if __name__ == "__main__":
+    print(get_rank("你是什麼蛋餅"))
 
-    # return plays
-    
-    # rank = soup.find('div', {'class': 'TierRank'}).text.strip()
-    # win_ratio = soup.find('div', {'class': 'WinRatioTitle'}).text.strip()
-    # return f'{summoner_name}的战绩：{rank}，胜率：{win_ratio}'
 
-get_recent_plays("要邏輯有騾疾")
+
 
