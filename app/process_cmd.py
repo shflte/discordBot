@@ -129,13 +129,13 @@ async def process_cmd(message, cmd, switch):
             return
         try:
             rank, level = get_rank(player)
+            reply = f"啊怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
         except:
             await message.channel.send("出包了")
             return
         if player == "":
             await message.channel.send("這誰")
             return
-        reply = f"啊怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
         await message.channel.send(reply)
         return
 
