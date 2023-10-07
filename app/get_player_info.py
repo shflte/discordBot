@@ -4,6 +4,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+rank_chinese = {
+    "IRON": "鐵",
+    "BRONZE": "銅",
+    "SILVER": "銀",
+    "GOLD": "金",
+    "EMERALD" : "翡翠",
+    "PLATINUM": "鉑",
+    "DIAMOND": "鑽",
+    "MASTER": "大師",
+    "GRANDMASTER": "宗師",
+    "CHALLENGER": "挑戰者",
+}
+
 class XPATH:
     header_title = "//h2"
     search_bar = "//input[@id='search']"

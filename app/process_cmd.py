@@ -3,23 +3,13 @@ from app.tools import is_wee
 from app.dst import back_up, toggle, roll_back, all_save
 from app.get_player_info import get_rank
 from dotenv import load_dotenv
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from app.tools import rank_chinese
+
 import discord
 import asyncio
 import os
 load_dotenv()  # Load environment variables from .env file
-
-rank_chinese = {
-    "IRON": "鐵",
-    "BRONZE": "銅",
-    "SILVER": "銀",
-    "GOLD": "金",
-    "EMERALD" : "翡翠",
-    "PLATINUM": "鉑",
-    "DIAMOND": "鑽",
-    "MASTER": "大師",
-    "GRANDMASTER": "宗師",
-    "CHALLENGER": "挑戰者",
-}
 
 DENNIS_TEXT_CHANNEL_DST = int(os.getenv('DENNIS_TEXT_CHANNEL_DST'))
 
@@ -129,7 +119,7 @@ async def process_cmd(message, cmd, switch):
             return
         try:
             rank, level = get_rank(player)
-            reply = f"啊怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
+            reply = f"啊{player}怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
         except:
             await message.channel.send("出包了")
             return
