@@ -4,7 +4,7 @@ from app.dst import back_up, toggle, roll_back, all_save
 from app.get_player_info import get_rank
 from dotenv import load_dotenv
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from app.tools import rank_chinese
+from app.get_player_info import rank_chinese
 
 import discord
 import asyncio

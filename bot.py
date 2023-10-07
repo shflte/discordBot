@@ -6,7 +6,7 @@ from app.process_cmd import process_cmd
 from app.get_player_info import get_rank, get_recent_plays
 import random
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from app.tools import rank_chinese
+from app.get_player_info import rank_chinese
 
 load_dotenv()  # Load environment variables from .env file
 
