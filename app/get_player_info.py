@@ -27,17 +27,16 @@ def init_driver(player: str) -> webdriver:
     url = "https://www.op.gg/summoners/tw/" + to_url_name(player)
     driver.get(url)
     wait = WebDriverWait(driver, 10)
-    breakpoint()
     wait.until(EC.presence_of_element_located((By.XPATH, XPATH.search_bar)))
     return driver
 
 def check_player_exist(driver: webdriver) -> bool:
     header_title = driver.find_element(By.XPATH, XPATH.header_title).text
-    return header_title != "是沒有註冊在OP.GG的召喚師。請確認有沒有錯別字後重試。"
+    return header_title != "This summoner is not registered at OP.GG. Please check spelling."
 
 def get_rank(player: str) -> tuple:
     driver = init_driver(player)
-    if check_player_exist(driver):
+    if not check_player_exist(driver):
         driver.quit()
         return ("", "")
     solo_rank = driver.find_element(By.XPATH, XPATH.solo_rank).text
@@ -48,7 +47,7 @@ def get_recent_plays(player: str) -> list:
     driver = init_driver(player)
 
 if __name__ == "__main__":
-    print(get_rank("沒有沒有"))
+    print(get_rank("這是誰這不是我我不是"))
 
 
 

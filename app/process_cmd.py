@@ -43,6 +43,8 @@ usage:
 '''
 
 async def process_cmd(message, cmd, switch):
+    print(f"cmd: {cmd}")
+    print(f"channel: {message.channel.id}")
     if not is_wee(message.author.roles):
         await message.channel.send("你誰")
         return 
@@ -116,14 +118,25 @@ async def process_cmd(message, cmd, switch):
 #                     await message.channel.send(f'roll back到最新ㄉ')
 #                 return
 
-    if len(cmd.split(' ')) == 2 and cmd.split()[0] == "opgg":
-        player = cmd.split()[1]
+    if len(cmd.split(' ')) >= 2 and cmd.split()[0] == "opgg":
+        player = ""
+        for i in range(1, len(cmd.split())):
+            player += cmd.split()[i]
+            if i != len(cmd.split()) - 1:
+                player += " "
         if player == "你是什麼蛋餅":
             await message.channel.send("想怎樣==")
             return
-        rank, level = get_rank(player)
-        message = f"啊怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
-        await message.channel.send(message)
+        try:
+            rank, level = get_rank(player)
+        except:
+            await message.channel.send("出包了")
+            return
+        if player == "":
+            await message.channel.send("這誰")
+            return
+        reply = f"啊怎麼還在{rank_chinese[rank.upper()]}{level} 念你媽書 快去爬分"
+        await message.channel.send(reply)
         return
 
     await message.channel.send("Σ(ﾟДﾟ；≡；ﾟдﾟ)")
